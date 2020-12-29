@@ -1,6 +1,9 @@
 <?php
 namespace MiniPads\Sounds\Domain;
 
+use MiniPads\Sounds\Domain\SoundId;
+use MiniPads\Sounds\Domain\SoundName;
+
 final class Sound
 {
     private $id;
@@ -8,7 +11,10 @@ final class Sound
     private $url;
     private $artist;
 
-    public  
+    public function __construct(SoundId $id, SoundName $name, string $url) 
+    {
+
+    }
 
 }
 
