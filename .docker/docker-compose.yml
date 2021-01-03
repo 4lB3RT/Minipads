@@ -1,0 +1,39 @@
+version: '3'
+services:
+  nginx_minipads:
+    image: nginx:latest
+    container_name: nginx_$PROJECT_NAME
+    ports:
+      - "$NGINX_PORT:80"
+    volumes:
+      - ../.:/code
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php_minipads
+      - mysql_minipads
+  php_minipads:
+    build: ./php
+    container_name: php_$PROJECT_NAME
+    volumes:
+      - ../.:/code
+      - ./php:/usr/local/etc/php
+    links:
+      - mysql_minipads
+  mysql_minipads:
+    image: mysql:5.6
+    container_name: mysql_$PROJECT_NAME
+    restart: always
+    ports:
+      - "$MYSQL_PORT:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
+    volumes:
+      - minipads_mysql-data:/var/lib/mysql
+volumes:
+  minipads_mysql-data:
+
+   
